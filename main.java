@@ -394,3 +394,36 @@ public final class Static {
                 List.of("I can't give personal advice. I only have canned replies.", "No recommendations in my set. Describe your case?", "I'm not an advisor. General chat only."), 4));
     }
 
+    private void emit(StaticEvent ev) {
+        eventLog.add(ev);
+    }
+
+    /** Open a new session. */
+    public String openSession() {
+        if (sessions.size() >= MAX_SESSIONS_PER_REALM) {
+            emit(StaticEvent.RATE_LIMIT_HIT);
+            throw new StaticSessionCapReachedException();
+        }
+        String sessionId = UUID.randomUUID().toString();
+        ChatterSession session = new ChatterSession(sessionId, config.getRealmId());
+        sessions.put(sessionId, session);
+        emit(StaticEvent.SESSION_OPENED);
+        return sessionId;
+    }
+
+    /** Validate realm and session. */
+    private ChatterSession resolveSession(String sessionId) {
+        if (!config.getRealmId().equals(STATIC_REALM_ID)) {
+            throw new StaticRealmMismatchException();
+        }
+        ChatterSession session = sessions.get(sessionId);
+        if (session == null || session.isExpired()) {
+            throw new StaticSessionExpiredException(sessionId);
+        }
+        return session;
+    }
+
+    /** Validate utterance length. */
+    private static void validateUtterance(String utterance) {
+        if (utterance == null || utterance.length() > MAX_UTTERANCE_LEN) {
+            throw new StaticUtteranceTooLongException(utterance == null ? 0 : utterance.length());
