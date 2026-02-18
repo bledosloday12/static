@@ -592,3 +592,36 @@ public final class Static {
         }
         return EXTRA_QUESTION_RESPONSES[index];
     }
+
+    /** Get extra help response by index. */
+    public String getExtraHelpResponse(int index) {
+        if (index < 0 || index >= EXTRA_HELP_RESPONSES.length) {
+            return EXTRA_HELP_RESPONSES[0];
+        }
+        return EXTRA_HELP_RESPONSES[index];
+    }
+
+    /** Get extra farewell by index. */
+    public String getExtraFarewell(int index) {
+        if (index < 0 || index >= EXTRA_FAREWELL_RESPONSES.length) {
+            return EXTRA_FAREWELL_RESPONSES[0];
+        }
+        return EXTRA_FAREWELL_RESPONSES[index];
+    }
+
+    /** Resolve node by role. */
+    public String getNodeForRole(String role) {
+        switch (role != null ? role.toLowerCase() : "") {
+            case "primary": return config.getPrimaryNode();
+            case "replica": return config.getReplicaNode();
+            case "fallback": return config.getFallbackNode();
+            default: return config.getPrimaryNode();
+        }
+    }
+
+    // --------------- Utterance validator (contract rule enforcement) ---------------
+
+    public static final class UtteranceValidator {
+        public static void checkLength(String text) {
+            if (text == null) throw new StaticUtteranceTooLongException(0);
+            if (text.length() > MAX_UTTERANCE_LEN) throw new StaticUtteranceTooLongException(text.length());
