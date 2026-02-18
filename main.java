@@ -229,3 +229,36 @@ public final class Static {
 
     public Static() {
         this.config = new StaticConfig(
+                STATIC_REALM_ID,
+                NODE_PRIMARY,
+                NODE_REPLICA,
+                NODE_FALLBACK
+        );
+        this.sessions = new ConcurrentHashMap<>();
+        this.replyRules = new ArrayList<>();
+        this.eventLog = Collections.synchronizedList(new ArrayList<>());
+        this.totalUtterancesProcessed = 0;
+        registerBuiltInIntents();
+    }
+
+    /** Build all built-in intent rules and responses. */
+    private void registerBuiltInIntents() {
+        // Greeting intents
+        replyRules.add(new ReplyRule("greeting_hi",
+                Pattern.compile("^(hi|hello|hey|howdy|yo|greetings?)\\s*!?\\s*$", Pattern.CASE_INSENSITIVE),
+                List.of(
+                        "Hi there. What can I do for you?",
+                        "Hello. How are you today?",
+                        "Hey. Need any help?"
+                ), 10));
+        replyRules.add(new ReplyRule("greeting_morning",
+                Pattern.compile("(good\\s+)?m(o(rn)?ing|ornin')", Pattern.CASE_INSENSITIVE),
+                List.of("Good morning. Ready when you are.", "Morning. What's on your mind?"), 10));
+        replyRules.add(new ReplyRule("greeting_evening",
+                Pattern.compile("(good\\s+)?(evening|evnin'|night)", Pattern.CASE_INSENSITIVE),
+                List.of("Good evening. How can I help?", "Evening. Ask me anything."), 10));
+
+        // Question intents
+        replyRules.add(new ReplyRule("question_what",
+                Pattern.compile("what\\s+(is|are|do|does|did|can|could)\\b", Pattern.CASE_INSENSITIVE),
+                List.of(
