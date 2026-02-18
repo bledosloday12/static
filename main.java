@@ -262,3 +262,36 @@ public final class Static {
         replyRules.add(new ReplyRule("question_what",
                 Pattern.compile("what\\s+(is|are|do|does|did|can|could)\\b", Pattern.CASE_INSENSITIVE),
                 List.of(
+                        "I'm not sure of the full context. Can you narrow it down?",
+                        "That depends on what you mean. Tell me more.",
+                        "Good question. I'll need a bit more detail."
+                ), 5));
+        replyRules.add(new ReplyRule("question_how",
+                Pattern.compile("how\\s+(do|does|did|can|could|would)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("There are a few ways. What are you trying to do?", "I can walk you through it. What exactly?", "It depends on the case. More details?"), 5));
+        replyRules.add(new ReplyRule("question_why",
+                Pattern.compile("why\\s+(is|are|do|does|did|can't|cannot)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("Reasons vary. What situation are you in?", "I'd need more context to say why.", "Good to ask why. Can you describe the case?"), 5));
+        replyRules.add(new ReplyRule("question_when",
+                Pattern.compile("when\\s+(is|are|do|does|did|can)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("Timing depends on a few things. What are you referring to?", "I don't have a schedule in front of me. More context?", "When varies. What do you need to know?"), 5));
+        replyRules.add(new ReplyRule("question_where",
+                Pattern.compile("where\\s+(is|are|do|does|did|can)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("Location depends. What are you looking for?", "I'd need more detail to point you somewhere.", "Where varies. Can you specify?"), 5));
+
+        // Help / support
+        replyRules.add(new ReplyRule("help_general",
+                Pattern.compile("\\b(help|support|assist)\\b", Pattern.CASE_INSENSITIVE),
+                List.of(
+                        "I'm here to chat. Tell me what you need.",
+                        "Sure. What do you want help with?",
+                        "I can try to help. What's the issue?"
+                ), 7));
+        replyRules.add(new ReplyRule("help_stuck",
+                Pattern.compile("\\b(stuck|confused|don't understand)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("No worries. Describe what you're doing and where it stops.", "Take your time. What step are you on?", "I can try to clarify. What part is confusing?"), 7));
+
+        // Thanks / goodbye
+        replyRules.add(new ReplyRule("thanks",
+                Pattern.compile("\\b(thanks?|thank you|ty|thx)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("You're welcome.", "Glad to help.", "Anytime."), 8));
