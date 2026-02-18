@@ -295,3 +295,36 @@ public final class Static {
         replyRules.add(new ReplyRule("thanks",
                 Pattern.compile("\\b(thanks?|thank you|ty|thx)\\b", Pattern.CASE_INSENSITIVE),
                 List.of("You're welcome.", "Glad to help.", "Anytime."), 8));
+        replyRules.add(new ReplyRule("goodbye",
+                Pattern.compile("\\b(bye|goodbye|see ya|later|gtg|gotta go)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("Bye. Come back if you need anything.", "See you later.", "Take care."), 9));
+
+        // Opinion / feeling
+        replyRules.add(new ReplyRule("opinion_like",
+                Pattern.compile("\\b(i like|i love|i enjoy)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("That's nice to hear.", "Good to know.", "Thanks for sharing."), 4));
+        replyRules.add(new ReplyRule("opinion_dislike",
+                Pattern.compile("\\b(i hate|i don't like|dislike)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("Understood. Anything else I can help with?", "Got it. Want to talk about something else?", "Noted."), 4));
+        replyRules.add(new ReplyRule("feeling_good",
+                Pattern.compile("\\b(good|great|fine|ok|okay|doing well)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("Good to hear.", "That's great.", "Nice."), 4));
+        replyRules.add(new ReplyRule("feeling_bad",
+                Pattern.compile("\\b(bad|terrible|awful|not good|sad)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("Sorry to hear that. Want to talk about it?", "That sounds tough. I'm here if you need to vent.", "Hope things get better."), 6));
+
+        // Confirmation / negation
+        replyRules.add(new ReplyRule("confirm_yes",
+                Pattern.compile("^(yes|yeah|yep|yup|sure|ok|okay|correct|right)\\s*!?\\s*$", Pattern.CASE_INSENSITIVE),
+                List.of("Got it.", "Understood.", "Alright."), 3));
+        replyRules.add(new ReplyRule("confirm_no",
+                Pattern.compile("^(no|nope|nah|negative)\\s*!?\\s*$", Pattern.CASE_INSENSITIVE),
+                List.of("Understood.", "No problem.", "Alright."), 3));
+
+        // Static / bot identity
+        replyRules.add(new ReplyRule("identity_who",
+                Pattern.compile("\\b(who are you|what are you|are you a bot|your name)\\b", Pattern.CASE_INSENSITIVE),
+                List.of(
+                        "I'm Static, a chatter bot. I reply from fixed rules and intents.",
+                        "Static here — a bot. I match what you say to predefined replies.",
+                        "I'm Static. Just a chatter contract with sessions and intents."
