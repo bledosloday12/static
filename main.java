@@ -493,3 +493,36 @@ public final class Static {
         }
         return out;
     }
+
+    /** Get session history (read-only). */
+    public List<String> getSessionHistory(String sessionId) {
+        ChatterSession session = resolveSession(sessionId);
+        return session.getHistory();
+    }
+
+    /** Get config (realm + nodes). */
+    public StaticConfig getConfig() {
+        return config;
+    }
+
+    /** Total utterances processed. */
+    public int getTotalUtterancesProcessed() {
+        return totalUtterancesProcessed;
+    }
+
+    /** Event log snapshot. */
+    public List<StaticEvent> getEventLog() {
+        return new ArrayList<>(eventLog);
+    }
+
+    /** Realm fingerprint for verification. */
+    public String realmFingerprint() {
+        return String.format("%s-%s-%d-%s",
+                DEPLOYMENT_SALT,
+                config.getRealmId().substring(0, 18),
+                totalUtterancesProcessed,
+                config.getPrimaryNode().substring(0, 10)
+        );
+    }
+
+    /** Check if session exists and is not expired. */
