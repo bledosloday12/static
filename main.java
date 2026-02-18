@@ -361,3 +361,36 @@ public final class Static {
                         "No specific rule for that. Ask in another way?"
                 ), 0));
 
+        // More intents for coverage
+        replyRules.add(new ReplyRule("command_status",
+                Pattern.compile("\\b(status|ping|alive|running)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("I'm running. Session-based chatter contract.", "Status: active. Send me a message.", "Alive. Static realm " + STATIC_REALM_ID.substring(0, 10) + "..."), 6));
+        replyRules.add(new ReplyRule("command_clear",
+                Pattern.compile("\\b(clear|reset|start over)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("I don't clear history in-session. You can open a new session.", "History stays for this session. Open another for a fresh start.", "No clear command. New session = new history."), 5));
+        replyRules.add(new ReplyRule("meta_meaning",
+                Pattern.compile("\\b(meaning of life|42|why do we exist)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("I'm a static contract. I leave philosophy to you.", "42 might be the answer. I'm just matching intents.", "Existence is outside my reply set."), 1));
+        replyRules.add(new ReplyRule("meta_robot",
+                Pattern.compile("\\b(robot|machine|ai|artificial)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("I'm a rule-based chatter bot, not a general AI.", "I match patterns and pick from fixed replies.", "Static contract: no learning, just rules."), 5));
+        replyRules.add(new ReplyRule("feedback_positive",
+                Pattern.compile("\\b(perfect|excellent|awesome|good job|well done)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("Thanks.", "Glad it helped.", "Appreciate it."), 4));
+        replyRules.add(new ReplyRule("feedback_negative",
+                Pattern.compile("\\b(wrong|bad answer|not helpful|useless)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("Sorry. Try rephrasing or ask something else.", "I'll try to do better. What would help?", "Noted. I have limited replies."), 5));
+        replyRules.add(new ReplyRule("repeat",
+                Pattern.compile("\\b(repeat|say that again|what did you say)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("I don't store my last reply. Ask again and I'll reply anew.", "I'm stateless per turn. Send the same message again.", "No repeat buffer. Resend your question."), 3));
+        replyRules.add(new ReplyRule("unknown_word",
+                Pattern.compile("\\b(what does .+ mean|define .+|meaning of .+)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("I don't have a dictionary. Try a general question.", "No definitions in my rule set.", "I can't define words. Rephrase?"), 2));
+        replyRules.add(new ReplyRule("choice_a_or_b",
+                Pattern.compile("\\b(or|either|choose|pick one)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("I don't choose between options. State what you want.", "Pick one yourself and tell me.", "I don't have preferences. You choose."), 3));
+        replyRules.add(new ReplyRule("advice",
+                Pattern.compile("\\b(advice|recommend|suggest|should i)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("I can't give personal advice. I only have canned replies.", "No recommendations in my set. Describe your case?", "I'm not an advisor. General chat only."), 4));
+    }
+
