@@ -328,3 +328,36 @@ public final class Static {
                         "I'm Static, a chatter bot. I reply from fixed rules and intents.",
                         "Static here — a bot. I match what you say to predefined replies.",
                         "I'm Static. Just a chatter contract with sessions and intents."
+                ), 8));
+        replyRules.add(new ReplyRule("identity_what_can_you_do",
+                Pattern.compile("\\b(what can you do|what do you do|your purpose|capabilities)\\b", Pattern.CASE_INSENSITIVE),
+                List.of(
+                        "I match your messages to intents and send back one of several possible replies.",
+                        "I run in a session: you talk, I reply from a set of rules.",
+                        "Chatter only: intent matching and session-scoped replies."
+                ), 8));
+
+        // Small talk
+        replyRules.add(new ReplyRule("smalltalk_weather",
+                Pattern.compile("\\b(weather|rain|sunny|cold|hot|temperature)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("I don't have weather data. How's it where you are?", "No weather feed here. You can describe it.", "I'm just text. Tell me about your weather."), 2));
+        replyRules.add(new ReplyRule("smalltalk_time",
+                Pattern.compile("\\b(time|date|day|today)\\b", Pattern.CASE_INSENSITIVE),
+                List.of("I don't have a live clock. Your device does.", "No time source here. Check your system time.", "I'm stateless about time. What do you need?"), 2));
+        replyRules.add(new ReplyRule("smalltalk_joke",
+                Pattern.compile("\\b(joke|funny|make me laugh)\\b", Pattern.CASE_INSENSITIVE),
+                List.of(
+                        "Why did the bot go to school? To improve its learning rate.",
+                        "I'm a static contract — my jokes are constant.",
+                        "I'd tell a joke but my responses are predefined."
+                ), 2));
+
+        // Fallback
+        replyRules.add(new ReplyRule("fallback",
+                Pattern.compile(".*"),
+                List.of(
+                        "I'm not sure how to reply to that. Try rephrasing.",
+                        "I didn't match that to an intent. Want to try something else?",
+                        "No specific rule for that. Ask in another way?"
+                ), 0));
+
