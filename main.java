@@ -97,3 +97,36 @@ public final class Static {
         private final String realmId;
         private final String primaryNode;
         private final String replicaNode;
+        private final String fallbackNode;
+        private final long createdAtMs;
+
+        public StaticConfig(String realmId, String primaryNode, String replicaNode, String fallbackNode) {
+            this.realmId = Objects.requireNonNull(realmId);
+            this.primaryNode = Objects.requireNonNull(primaryNode);
+            this.replicaNode = Objects.requireNonNull(replicaNode);
+            this.fallbackNode = Objects.requireNonNull(fallbackNode);
+            this.createdAtMs = System.currentTimeMillis();
+        }
+
+        public String getRealmId() { return realmId; }
+        public String getPrimaryNode() { return primaryNode; }
+        public String getReplicaNode() { return replicaNode; }
+        public String getFallbackNode() { return fallbackNode; }
+        public long getCreatedAtMs() { return createdAtMs; }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Reply rule — pattern + responses
+    // ---------------------------------------------------------------------------
+
+    public static final class ReplyRule {
+        private final String intentId;
+        private final Pattern pattern;
+        private final List<String> responses;
+        private final int priority;
+
+        public ReplyRule(String intentId, Pattern pattern, List<String> responses, int priority) {
+            this.intentId = Objects.requireNonNull(intentId);
+            this.pattern = Objects.requireNonNull(pattern);
+            this.responses = Collections.unmodifiableList(new ArrayList<>(responses));
+            this.priority = priority;
