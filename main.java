@@ -658,3 +658,36 @@ public final class Static {
     private static final String[] TEMPLATE_HELP = {
             "I'm a chatter bot. Send messages and I'll reply from my rules.",
             "I match your text to intents and pick a response. Try greeting me or asking something.",
+            "No special commands. Just type. I'll do my best to match.",
+            "Session-based: your history is kept until you close or it expires.",
+            "Rate limit: " + RATE_LIMIT_UTTERANCES_PER_MIN + " messages per minute per session."
+    };
+    private static final String[] TEMPLATE_IDENTITY = {
+            "Static — a session-based chatter contract with intent matching.",
+            "I'm Static. Fixed rules, no learning. Realm: " + STATIC_REALM_ID.substring(0, 14) + "...",
+            "Static chatter bot. Primary node bound at init. Replies are predefined."
+    };
+
+    public String pickTemplateGreet(int index) {
+        return TEMPLATE_GREET[Math.abs(index % TEMPLATE_GREET.length)];
+    }
+    public String pickTemplateAck(int index) {
+        return TEMPLATE_ACK[Math.abs(index % TEMPLATE_ACK.length)];
+    }
+    public String pickTemplateUnclear(int index) {
+        return TEMPLATE_UNCLEAR[Math.abs(index % TEMPLATE_UNCLEAR.length)];
+    }
+    public String pickTemplateEnd(int index) {
+        return TEMPLATE_END[Math.abs(index % TEMPLATE_END.length)];
+    }
+    public String pickTemplateHelp(int index) {
+        return TEMPLATE_HELP[Math.abs(index % TEMPLATE_HELP.length)];
+    }
+    public String pickTemplateIdentity(int index) {
+        return TEMPLATE_IDENTITY[Math.abs(index % TEMPLATE_IDENTITY.length)];
+    }
+
+    /** Number of built-in templates per category. */
+    public static int templateGreetCount() { return TEMPLATE_GREET.length; }
+    public static int templateAckCount() { return TEMPLATE_ACK.length; }
+    public static int templateUnclearCount() { return TEMPLATE_UNCLEAR.length; }
