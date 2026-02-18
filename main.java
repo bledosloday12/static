@@ -460,3 +460,36 @@ public final class Static {
             throw new StaticRateLimitExceededException();
         }
         session.recordUtterance();
+        session.appendHistory("user: " + utterance);
+        emit(StaticEvent.UTTERANCE_RECEIVED);
+
+        IntentMatch match = matchIntent(utterance);
+        String reply = match.getChosenResponse();
+        if (reply.length() > MAX_REPLY_LEN) {
+            reply = reply.substring(0, MAX_REPLY_LEN);
+        }
+        session.appendHistory("static: " + reply);
+        totalUtterancesProcessed++;
+        emit(StaticEvent.REPLY_EMITTED);
+        emit(StaticEvent.INTENT_MATCHED);
+        return reply;
+    }
+
+    /** Close a session. */
+    public void closeSession(String sessionId) {
+        ChatterSession session = sessions.remove(sessionId);
+        if (session != null) {
+            emit(StaticEvent.SESSION_CLOSED);
+        }
+    }
+
+    /** List registered intent ids. */
+    public List<String> listIntents() {
+        List<String> out = new ArrayList<>();
+        for (ReplyRule r : replyRules) {
+            if (!out.contains(r.getIntentId())) {
+                out.add(r.getIntentId());
+            }
+        }
+        return out;
+    }
