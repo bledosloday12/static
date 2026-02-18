@@ -691,3 +691,36 @@ public final class Static {
     public static int templateGreetCount() { return TEMPLATE_GREET.length; }
     public static int templateAckCount() { return TEMPLATE_ACK.length; }
     public static int templateUnclearCount() { return TEMPLATE_UNCLEAR.length; }
+    public static int templateEndCount() { return TEMPLATE_END.length; }
+    public static int templateHelpCount() { return TEMPLATE_HELP.length; }
+    public static int templateIdentityCount() { return TEMPLATE_IDENTITY.length; }
+
+    /** Constants export for external verification. */
+    public static String getStaticRealmId() { return STATIC_REALM_ID; }
+    public static String getNodePrimary() { return NODE_PRIMARY; }
+    public static String getNodeReplica() { return NODE_REPLICA; }
+    public static String getNodeFallback() { return NODE_FALLBACK; }
+    public static int getMaxUtteranceLen() { return MAX_UTTERANCE_LEN; }
+    public static int getMaxReplyLen() { return MAX_REPLY_LEN; }
+    public static long getSessionTtlMs() { return SESSION_TTL_MS; }
+
+    // --------------- Session manager (aggregate ops) ---------------
+
+    public static final class SessionManager {
+        private final Static owner;
+
+        public SessionManager(Static owner) {
+            this.owner = Objects.requireNonNull(owner);
+        }
+
+        public int countActive() {
+            return owner.getSessionCount();
+        }
+
+        public boolean isActive(String sessionId) {
+            return owner.isSessionActive(sessionId);
+        }
+
+        public Optional<String> sendSafe(String sessionId, String utterance) {
+            try {
+                UtteranceValidator.checkLength(utterance);
