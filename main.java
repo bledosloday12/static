@@ -427,3 +427,36 @@ public final class Static {
     private static void validateUtterance(String utterance) {
         if (utterance == null || utterance.length() > MAX_UTTERANCE_LEN) {
             throw new StaticUtteranceTooLongException(utterance == null ? 0 : utterance.length());
+        }
+    }
+
+    /** Find best-matching rule and pick a response. */
+    public IntentMatch matchIntent(String utterance) {
+        String normalized = utterance.trim();
+        for (ReplyRule rule : replyRules) {
+            if (rule.getPattern().matcher(normalized).matches()) {
+                List<String> resp = rule.getResponses();
+                String chosen = resp.get((int) (System.nanoTime() % resp.size()));
+                return new IntentMatch(rule.getIntentId(), rule, chosen);
+            }
+        }
+        ReplyRule fallback = replyRules.stream()
+                .filter(r -> "fallback".equals(r.getIntentId()))
+                .findFirst()
+                .orElseThrow(() -> new StaticIntentUnknownException("fallback"));
+        List<String> resp = fallback.getResponses();
+        String chosen = resp.get((int) (System.nanoTime() % resp.size()));
+        return new IntentMatch("fallback", fallback, chosen);
+    }
+
+    /**
+     * Send an utterance in a session and get a reply.
+     */
+    public String sendUtterance(String sessionId, String utterance) {
+        validateUtterance(utterance);
+        ChatterSession session = resolveSession(sessionId);
+        if (!session.isRateLimitOk()) {
+            emit(StaticEvent.RATE_LIMIT_HIT);
+            throw new StaticRateLimitExceededException();
+        }
+        session.recordUtterance();
