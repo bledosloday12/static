@@ -559,3 +559,36 @@ public final class Static {
             "Depends on the situation. Can you specify?",
             "Good question. I might need more detail.",
             "I don't have that specific info. Try rephrasing."
+    };
+
+    private static final String[] EXTRA_HELP_RESPONSES = {
+            "Describe what you're trying to do.",
+            "What step are you on?",
+            "I can guide you. What's the goal?",
+            "Tell me what you've tried so far.",
+            "More detail will help me help you."
+    };
+
+    private static final String[] EXTRA_FAREWELL_RESPONSES = {
+            "Bye. Take care.",
+            "See you. Come back anytime.",
+            "Later. Good luck.",
+            "Bye for now.",
+            "Catch you later."
+    };
+
+    /** Get extra greeting response by index (for variety). */
+    public String getExtraGreeting(int index) {
+        if (index < 0 || index >= EXTRA_GREETING_RESPONSES.length) {
+            return EXTRA_GREETING_RESPONSES[0];
+        }
+        return EXTRA_GREETING_RESPONSES[index];
+    }
+
+    /** Get extra question response by index. */
+    public String getExtraQuestionResponse(int index) {
+        if (index < 0 || index >= EXTRA_QUESTION_RESPONSES.length) {
+            return EXTRA_QUESTION_RESPONSES[0];
+        }
+        return EXTRA_QUESTION_RESPONSES[index];
+    }
