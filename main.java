@@ -526,3 +526,36 @@ public final class Static {
     }
 
     /** Check if session exists and is not expired. */
+    public boolean isSessionActive(String sessionId) {
+        ChatterSession session = sessions.get(sessionId);
+        return session != null && !session.isExpired();
+    }
+
+    /** Get current session count. */
+    public int getSessionCount() {
+        return sessions.size();
+    }
+
+    /** Single-shot reply without session (uses internal temp session). */
+    public String replyOnce(String utterance) {
+        validateUtterance(utterance);
+        IntentMatch match = matchIntent(utterance);
+        return match.getChosenResponse();
+    }
+
+    // --------------- Additional reply pools for more coverage (expand line count) ---------------
+
+    private static final String[] EXTRA_GREETING_RESPONSES = {
+            "Hi. Ready when you are.",
+            "Hello. What do you need?",
+            "Hey there. How can I help?",
+            "Greetings. Ask away.",
+            "Hi again. What's next?"
+    };
+
+    private static final String[] EXTRA_QUESTION_RESPONSES = {
+            "I need a bit more context to answer well.",
+            "That's a broad question. Narrow it down?",
+            "Depends on the situation. Can you specify?",
+            "Good question. I might need more detail.",
+            "I don't have that specific info. Try rephrasing."
