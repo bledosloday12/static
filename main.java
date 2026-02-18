@@ -196,3 +196,36 @@ public final class Static {
             return utteranceCountThisMinute <= RATE_LIMIT_UTTERANCES_PER_MIN;
         }
     }
+
+    // ---------------------------------------------------------------------------
+    // Intent match result
+    // ---------------------------------------------------------------------------
+
+    public static final class IntentMatch {
+        private final String intentId;
+        private final ReplyRule rule;
+        private final String chosenResponse;
+
+        public IntentMatch(String intentId, ReplyRule rule, String chosenResponse) {
+            this.intentId = intentId;
+            this.rule = rule;
+            this.chosenResponse = chosenResponse;
+        }
+
+        public String getIntentId() { return intentId; }
+        public ReplyRule getRule() { return rule; }
+        public String getChosenResponse() { return chosenResponse; }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Contract state
+    // ---------------------------------------------------------------------------
+
+    private final StaticConfig config;
+    private final Map<String, ChatterSession> sessions;
+    private final List<ReplyRule> replyRules;
+    private final List<StaticEvent> eventLog;
+    private int totalUtterancesProcessed;
+
+    public Static() {
+        this.config = new StaticConfig(
