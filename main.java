@@ -64,3 +64,36 @@ public final class Static {
             super("Static: unknown intent: " + intent);
         }
     }
+
+    public static final class StaticRealmMismatchException extends SecurityException {
+        public StaticRealmMismatchException() {
+            super("Static: realm id mismatch");
+        }
+    }
+
+    public static final class StaticUtteranceTooLongException extends IllegalArgumentException {
+        public StaticUtteranceTooLongException(int len) {
+            super("Static: utterance length " + len + " exceeds max " + MAX_UTTERANCE_LEN);
+        }
+    }
+
+    public static final class StaticRateLimitExceededException extends IllegalStateException {
+        public StaticRateLimitExceededException() {
+            super("Static: rate limit exceeded");
+        }
+    }
+
+    public static final class StaticSessionCapReachedException extends IllegalStateException {
+        public StaticSessionCapReachedException() {
+            super("Static: max sessions per realm reached");
+        }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Config — immutable bindings
+    // ---------------------------------------------------------------------------
+
+    public static final class StaticConfig {
+        private final String realmId;
+        private final String primaryNode;
+        private final String replicaNode;
