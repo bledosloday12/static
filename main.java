@@ -163,3 +163,36 @@ public final class Static {
             this.context = new ConcurrentHashMap<>();
         }
 
+        public String getSessionId() { return sessionId; }
+        public String getRealmId() { return realmId; }
+        public long getOpenedAtMs() { return openedAtMs; }
+        public long getLastUtteranceAtMs() { return lastUtteranceAtMs; }
+        public List<String> getHistory() { return Collections.unmodifiableList(new ArrayList<>(history)); }
+        public Map<String, Object> getContext() { return new HashMap<>(context); }
+
+        public void recordUtterance() {
+            long now = System.currentTimeMillis();
+            if (now - minuteWindowStartMs >= 60_000) {
+                minuteWindowStartMs = now;
+                utteranceCountThisMinute = 0;
+            }
+            utteranceCountThisMinute++;
+            lastUtteranceAtMs = now;
+        }
+
+        public void appendHistory(String entry) {
+            history.add(entry);
+        }
+
+        public void putContext(String key, Object value) {
+            context.put(key, value);
+        }
+
+        public boolean isExpired() {
+            return System.currentTimeMillis() - lastUtteranceAtMs > SESSION_TTL_MS;
+        }
+
+        public boolean isRateLimitOk() {
+            return utteranceCountThisMinute <= RATE_LIMIT_UTTERANCES_PER_MIN;
+        }
+    }
