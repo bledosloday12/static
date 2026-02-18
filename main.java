@@ -625,3 +625,36 @@ public final class Static {
         public static void checkLength(String text) {
             if (text == null) throw new StaticUtteranceTooLongException(0);
             if (text.length() > MAX_UTTERANCE_LEN) throw new StaticUtteranceTooLongException(text.length());
+        }
+        public static void checkNotEmpty(String text) {
+            if (text == null || text.trim().isEmpty()) throw new IllegalArgumentException("Static: utterance empty");
+        }
+        public static String sanitize(String text) {
+            if (text == null) return "";
+            return text.trim().replaceAll("\\s+", " ").substring(0, Math.min(text.length(), MAX_UTTERANCE_LEN));
+        }
+    }
+
+    // --------------- Reply template library (large set for variety) ---------------
+
+    private static final String[] TEMPLATE_GREET = {
+            "Hi.", "Hello.", "Hey.", "Hi there.", "Hello there.", "Hey there.",
+            "Greetings.", "Good to see you.", "How can I help?", "What can I do for you?",
+            "Ready when you are.", "Here if you need me.", "Ask away."
+    };
+    private static final String[] TEMPLATE_ACK = {
+            "Got it.", "Understood.", "Okay.", "Alright.", "Noted.", "Sure.",
+            "Right.", "Yes.", "Roger.", "Copy that."
+    };
+    private static final String[] TEMPLATE_UNCLEAR = {
+            "I'm not sure I follow.", "Can you rephrase?", "Could you clarify?",
+            "I didn't catch that.", "More detail would help.", "What do you mean?",
+            "Try saying it another way.", "I need a bit more context."
+    };
+    private static final String[] TEMPLATE_END = {
+            "Bye.", "See you.", "Take care.", "Goodbye.", "Later.", "So long.",
+            "Catch you later.", "Have a good one.", "Until next time."
+    };
+    private static final String[] TEMPLATE_HELP = {
+            "I'm a chatter bot. Send messages and I'll reply from my rules.",
+            "I match your text to intents and pick a response. Try greeting me or asking something.",
