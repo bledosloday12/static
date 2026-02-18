@@ -130,3 +130,36 @@ public final class Static {
             this.pattern = Objects.requireNonNull(pattern);
             this.responses = Collections.unmodifiableList(new ArrayList<>(responses));
             this.priority = priority;
+        }
+
+        public String getIntentId() { return intentId; }
+        public Pattern getPattern() { return pattern; }
+        public List<String> getResponses() { return responses; }
+        public int getPriority() { return priority; }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Session — per-user conversation state
+    // ---------------------------------------------------------------------------
+
+    public static final class ChatterSession {
+        private final String sessionId;
+        private final String realmId;
+        private final long openedAtMs;
+        private long lastUtteranceAtMs;
+        private int utteranceCountThisMinute;
+        private long minuteWindowStartMs;
+        private final List<String> history;
+        private final Map<String, Object> context;
+
+        public ChatterSession(String sessionId, String realmId) {
+            this.sessionId = Objects.requireNonNull(sessionId);
+            this.realmId = Objects.requireNonNull(realmId);
+            this.openedAtMs = System.currentTimeMillis();
+            this.lastUtteranceAtMs = openedAtMs;
+            this.utteranceCountThisMinute = 0;
+            this.minuteWindowStartMs = openedAtMs;
+            this.history = new ArrayList<>();
+            this.context = new ConcurrentHashMap<>();
+        }
+
