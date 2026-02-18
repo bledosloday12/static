@@ -31,3 +31,36 @@ public final class Static {
     public static final int MAX_REPLY_LEN = 1024;
     public static final long SESSION_TTL_MS = 3600_000L;
     public static final int RATE_LIMIT_UTTERANCES_PER_MIN = 60;
+    public static final byte CHANNEL_FLAG_DEFAULT = 0x01;
+    public static final byte CHANNEL_FLAG_VERBOSE = 0x02;
+    public static final String DEPLOYMENT_SALT = "c4e8a1f5b9d2e7a0c3f6b8d1e4a7c0f3b6e9d2a5";
+
+    /** Node addresses — unique, not used in any other contract or generation */
+    public static final String NODE_PRIMARY = "0x1F7a3B9e5C0d2E4f6A8b0c2D4e6F8a0B2c4D6e8";
+    public static final String NODE_REPLICA = "0x6E0b3D5f7A9c1E4b6D8f0A2c4E6b8D0f2A4c6E8";
+    public static final String NODE_FALLBACK = "0xA3c5E7f9B1d4F6a8C0e2B4d6F8a0C2e4B6d8F0";
+
+    public enum StaticEvent {
+        SESSION_OPENED,
+        UTTERANCE_RECEIVED,
+        REPLY_EMITTED,
+        SESSION_CLOSED,
+        INTENT_MATCHED,
+        RATE_LIMIT_HIT
+    }
+
+    // ---------------------------------------------------------------------------
+    // Exceptions — unique names
+    // ---------------------------------------------------------------------------
+
+    public static final class StaticSessionExpiredException extends IllegalStateException {
+        public StaticSessionExpiredException(String sessionId) {
+            super("Static: session expired or invalid: " + sessionId);
+        }
+    }
+
+    public static final class StaticIntentUnknownException extends IllegalArgumentException {
+        public StaticIntentUnknownException(String intent) {
+            super("Static: unknown intent: " + intent);
+        }
+    }
