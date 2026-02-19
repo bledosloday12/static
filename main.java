@@ -790,3 +790,36 @@ public final class Static {
     };
     private static final String[] BANK_SESSION_EXPIRED = {
             "Your session expired. Open a new one.",
+            "Session timed out. Start a fresh session.",
+            "Session invalid or expired. Open again."
+    };
+    private static final String[] BANK_RATE_LIMIT = {
+            "Too many messages this minute. Slow down.",
+            "Rate limit hit. Wait a bit before sending more.",
+            "Pace yourself: " + RATE_LIMIT_UTTERANCES_PER_MIN + " per minute."
+    };
+
+    public String getEmptyInputMessage(int index) {
+        return BANK_EMPTY_INPUT[Math.abs(index % BANK_EMPTY_INPUT.length)];
+    }
+    public String getTooLongMessage(int index) {
+        return BANK_TOO_LONG[Math.abs(index % BANK_TOO_LONG.length)];
+    }
+    public String getErrorGenericMessage(int index) {
+        return BANK_ERROR_GENERIC[Math.abs(index % BANK_ERROR_GENERIC.length)];
+    }
+    public String getSessionExpiredMessage(int index) {
+        return BANK_SESSION_EXPIRED[Math.abs(index % BANK_SESSION_EXPIRED.length)];
+    }
+    public String getRateLimitMessage(int index) {
+        return BANK_RATE_LIMIT[Math.abs(index % BANK_RATE_LIMIT.length)];
+    }
+
+    // --------------- Node / realm verification ---------------
+
+    public boolean verifyRealm(String realmId) {
+        return config.getRealmId().equals(realmId);
+    }
+    public boolean verifyPrimaryNode(String node) {
+        return config.getPrimaryNode().equals(node);
+    }
