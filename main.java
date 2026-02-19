@@ -724,3 +724,36 @@ public final class Static {
         public Optional<String> sendSafe(String sessionId, String utterance) {
             try {
                 UtteranceValidator.checkLength(utterance);
+                UtteranceValidator.checkNotEmpty(utterance);
+                return Optional.of(owner.sendUtterance(sessionId, utterance));
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        }
+
+        public String openOrThrow() {
+            return owner.openSession();
+        }
+    }
+
+    public SessionManager getSessionManager() {
+        return new SessionManager(this);
+    }
+
+    // --------------- Intent description (for UI / docs) ---------------
+
+    public static final class IntentInfo {
+        private final String id;
+        private final String description;
+        private final int priority;
+
+        public IntentInfo(String id, String description, int priority) {
+            this.id = id;
+            this.description = description;
+            this.priority = priority;
+        }
+        public String getId() { return id; }
+        public String getDescription() { return description; }
+        public int getPriority() { return priority; }
+    }
+
