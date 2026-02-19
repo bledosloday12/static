@@ -823,3 +823,28 @@ public final class Static {
     public boolean verifyPrimaryNode(String node) {
         return config.getPrimaryNode().equals(node);
     }
+    public boolean verifyReplicaNode(String node) {
+        return config.getReplicaNode().equals(node);
+    }
+    public boolean verifyFallbackNode(String node) {
+        return config.getFallbackNode().equals(node);
+    }
+    public String getRealmId() { return config.getRealmId(); }
+    public String getPrimaryNode() { return config.getPrimaryNode(); }
+    public String getReplicaNode() { return config.getReplicaNode(); }
+    public String getFallbackNode() { return config.getFallbackNode(); }
+
+    // --------------- Main (demo) ---------------
+
+    public static void main(String[] args) {
+        Static bot = new Static();
+        String sid = bot.openSession();
+        System.out.println("Session: " + sid);
+        System.out.println("Realm: " + bot.getConfig().getRealmId());
+        System.out.println("Reply: " + bot.sendUtterance(sid, "Hello"));
+        System.out.println("Reply: " + bot.sendUtterance(sid, "What can you do?"));
+        System.out.println("Reply: " + bot.sendUtterance(sid, "Thanks"));
+        System.out.println("Total: " + bot.getTotalUtterancesProcessed());
+        bot.closeSession(sid);
+    }
+}
