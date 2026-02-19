@@ -757,3 +757,36 @@ public final class Static {
         public int getPriority() { return priority; }
     }
 
+    public List<IntentInfo> listIntentInfos() {
+        List<IntentInfo> out = new ArrayList<>();
+        Map<String, Integer> seen = new HashMap<>();
+        for (ReplyRule r : replyRules) {
+            if (!seen.containsKey(r.getIntentId())) {
+                seen.put(r.getIntentId(), r.getPriority());
+                out.add(new IntentInfo(r.getIntentId(), "Intent: " + r.getIntentId(), r.getPriority()));
+            }
+        }
+        out.sort((a, b) -> Integer.compare(b.getPriority(), a.getPriority()));
+        return out;
+    }
+
+    // --------------- Extra reply banks (expand coverage) ---------------
+
+    private static final String[] BANK_EMPTY_INPUT = {
+            "You didn't say anything. Type a message.",
+            "Empty message. Try again.",
+            "I need some text to reply to.",
+            "Send something other than blank."
+    };
+    private static final String[] BANK_TOO_LONG = {
+            "That message is too long. Shorten it to " + MAX_UTTERANCE_LEN + " chars.",
+            "Max length is " + MAX_UTTERANCE_LEN + ". Trim your message.",
+            "Message exceeds limit. Please shorten."
+    };
+    private static final String[] BANK_ERROR_GENERIC = {
+            "Something went wrong on my side. Try again.",
+            "Temporary issue. Retry in a moment.",
+            "I couldn't process that. Please resend."
+    };
+    private static final String[] BANK_SESSION_EXPIRED = {
+            "Your session expired. Open a new one.",
